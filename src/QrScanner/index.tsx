@@ -95,25 +95,6 @@ const QrReader = () => {
     <div className="qr-reader">
       {/* QR */}
       <video ref={videoEl}></video>
-      <div
-        style={{
-          position: "absolute",
-        }}
-      >
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleFileInputChange}
-        />
-        <img
-          src={FileUploadIcon}
-          alt="upload-img"
-          style={{
-            width: "1.5rem",
-          }}
-        />
-      </div>
       <div ref={qrBoxEl} className="qr-box">
         <img
           src={QrFrame}
@@ -122,6 +103,25 @@ const QrReader = () => {
           height={256}
           className="qr-frame"
         />
+        <div
+          style={{
+            position: "absolute",
+          }}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleFileInputChange}
+          />
+          <img
+            src={FileUploadIcon}
+            alt="upload-img"
+            style={{
+              width: "1.5rem",
+            }}
+          />
+        </div>
       </div>
 
       {/* Show Data Result if scan is success */}
