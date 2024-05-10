@@ -5,6 +5,7 @@ import "./index.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
+import FileUploadIcon from "../assets/fileupload.svg";
 import QrFrame from "../assets/qr-frame.svg";
 
 const QrReader = () => {
@@ -12,6 +13,7 @@ const QrReader = () => {
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
 
   // Result
@@ -73,10 +75,45 @@ const QrReader = () => {
       );
   }, [qrOn]);
 
+  const handleFileInputChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files === null) return;
+    const file = event?.target?.files[0];
+    if (!file) return;
+
+    try {
+      const imageUrl = URL.createObjectURL(file);
+      const result = await QrScanner.scanImage(imageUrl);
+      console.log("Scanned result from image:", result);
+    } catch (error) {
+      console.error("Error scanning image:", error);
+    }
+  };
+
   return (
     <div className="qr-reader">
       {/* QR */}
       <video ref={videoEl}></video>
+      <div
+        style={{
+          position: "absolute",
+        }}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileInputChange}
+        />
+        <img
+          src={FileUploadIcon}
+          alt="upload-img"
+          style={{
+            width: "1.5rem",
+          }}
+        />
+      </div>
       <div ref={qrBoxEl} className="qr-box">
         <img
           src={QrFrame}
